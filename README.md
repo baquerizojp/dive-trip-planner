@@ -1,25 +1,32 @@
 # Dive Trip Organizer
 
-This is a minimal web application to help organize group scuba diving trips. It is built using React via CDN and stores data in browser local storage. The app can be hosted for free using any static hosting provider (e.g. GitHub Pages or Netlify).
+This is a minimal web application to help organize group scuba-diving trips.  
+It’s built with React (via CDN), stores data in **Supabase** for cross-device sync, and falls back to `localStorage` if you’re offline.  
+Host it anywhere static (GitHub Pages, Netlify, Cloudflare Pages…).
 
 ## Features
 
-- Create, edit, and delete dive trips
-- Track participants with interest and payment status
-- Automatically sort participants (confirmed & paid first)
-- Generate WhatsApp messages for trip announcements
-- Separate upcoming and past trips by date
+- Create, edit, and delete dive trips  
+- Track participants with interest / payment status  
+- Auto-sort participants (confirmed & paid first)  
+- One-click WhatsApp message generation for trip announcements  
+- Upcoming vs. past trips split by date  
 
 ## Running Locally
 
-Simply open `public/index.html` in a modern browser. All data is stored in `localStorage`.
+1. **Supabase setup**  
+   - Create a project with two tables:  
+     - `trips` → `id` (int, PK), `title`, `date`, `location`, `cost`, `description`, `min`, `max`  
+     - `participants` → `id` (int, PK), `trip_id` (FK to trips), `name`, `interest`, `payment`  
+2. In `public/app.jsx`, drop in your `SUPABASE_URL` and `SUPABASE_ANON_KEY`.  
+3. Open `public/index.html` in a modern browser.  
+   - No Supabase credentials? The app silently switches to `localStorage` so you can still play around.
 
 ## Deployment
 
-Upload the `public/` folder contents to any static hosting service and point your subdomain (e.g. `dive.mydomain.com`) to it.
+Upload everything inside `public/` to your static host and point your sub-domain (e.g. **dive.mydomain.com**) at it.
 
 ## Future Work
 
-- Replace `localStorage` with Supabase for cross-device sync
-- User authentication for managing trips
-
+- User authentication for trip management  
+- Nice-to-have: offline-first UI polish & service-worker caching
